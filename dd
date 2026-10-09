@@ -1,0 +1,201 @@
+You are using Ubuntu Linux, and your terminal is currently logged in as root. You have uploaded all eight System Design Lab assignments, so I'll identify the software you need based on those assignments and give you the installation commands.
+
+My recommendation: Install the development tools once, then use them across all eight assignments. You don't need to install separate software for every experiment.
+1. Software required for your eight assignments
+Software	Purpose	Assignments
+Java JDK 21	Runs your Java and Spring Boot applications	1–8
+Visual Studio Code	Write and develop your project code	1–8
+Git	Track code changes and upload projects to GitHub	1–8
+Docker Engine + Docker Compose	Run MongoDB, Redis, and other services in containers	Particularly 4–8
+MongoDB	Store student records and demonstrate database sharding	4 and 5
+Redis	Cache URL mappings, manage rate limits, cache autocomplete results, and maintain crawler state	3, 6, 7, 8
+Postman	Send HTTP requests to test your REST APIs	2, 3, 6, 7, 8
+Apache JMeter	Generate concurrent requests and measure performance	7 and 8; useful for other performance tests
+Maven	Build and manage Spring Boot project dependencies	1–8
+GitHub account	Store and submit your project repositories	1–8
+Your assignment PDFs specifically mention Spring Boot, REST APIs, Redis, MongoDB, Docker, Postman, and JMeter in different combinations. For example, Experiment 2 requires a Spring Boot URL shortener and Postman testing, while Experiment 3 adds Redis caching. For the database experiments, Docker Compose is particularly important because Experiment 4 requires a MongoDB sharded cluster, and Experiment 5 requires multiple MongoDB instances with application-level consistent hashing.
+2. Step 1 — Install Java, Git, Maven, Docker and JMeter
+
+Your terminal already has root privileges, so you can run these commands directly.
+A. Update Ubuntu
+
+Copy and execute:
+
+apt update
+apt upgrade -y
+
+B. Install Java 21, Git, Maven and basic utilities
+
+apt install -y openjdk-21-jdk git maven curl wget unzip ca-certificates
+
+Java 21 is a good choice for developing modern Spring Boot applications.
+
+Verify the installations:
+
+java -version
+javac -version
+git --version
+mvn -version
+
+You should see the installed Java version, Git version and Maven version.
+C. Install Docker and Docker Compose
+
+Your MongoDB sharding and distributed storage assignments will benefit from Docker.
+
+apt install -y docker.io docker-compose-v2
+
+Start Docker and enable it to start automatically:
+
+systemctl enable --now docker
+
+Verify:
+
+docker --version
+docker compose version
+docker info
+
+Test Docker with a container:
+
+docker run hello-world
+
+If the test prints a success message, Docker is working.
+
+Important: Your assignments use Docker Compose to run multiple MongoDB instances and Redis. You do not need to install MongoDB and Redis directly on Ubuntu if you run them in containers.
+3. Step 2 — Install Visual Studio Code
+
+You will use VS Code to develop all eight projects.
+
+First, check whether it is already installed:
+
+code --version
+
+If you get a version number, you can skip the installation.
+
+Otherwise, download the official VS Code Debian package from:
+
+https://code.visualstudio.com/
+
+Choose the .deb package for Debian/Ubuntu.
+
+After downloading it, open your Downloads folder in the terminal and install it:
+
+cd ~/Downloads
+apt install ./code_*.deb
+
+If the command cannot find the file, check the downloaded filename using:
+
+ls -lh ~/Downloads
+
+Then open VS Code:
+
+code
+
+Important: Your screenshot shows a root terminal. Although root can install system software, you should develop your projects using your regular Ubuntu account rather than running VS Code as root.
+4. Step 3 — Install the required VS Code extensions
+
+Open VS Code and go to the Extensions section using Ctrl + Shift + X.
+
+Install these extensions:
+Extension	Why you need it
+Extension Pack for Java	Java development
+Spring Boot Extension Pack	Spring Boot development
+Docker	Manage Docker containers and images
+REST Client	Send HTTP requests directly from VS Code
+GitHub Pull Requests	Work with GitHub repositories
+
+You can also install the Java and Spring Boot extensions using the terminal:
+
+code --install-extension vscjava.vscode-java-pack
+
+code --install-extension vmware.vscode-boot-dev-pack
+
+If you encounter an error installing extensions while logged in as root, run VS Code under your normal user account.
+5. Step 4 — Install Postman
+
+Postman will help you test your Spring Boot REST APIs.
+
+Download it from the official website:
+
+https://www.postman.com/downloads/
+
+Choose the Linux version and follow its installation instructions.
+
+You will use Postman to test endpoints such as:
+POST /shorten
+GET /{shortCode}
+
+You can also test your rate limiter, autocomplete service and web crawler through their REST APIs.
+6. Step 5 — Install Apache JMeter
+
+JMeter is needed for performance testing, particularly for your autocomplete and web crawler assignments.
+
+Try installing it through Ubuntu's package manager:
+
+apt install -y jmeter
+
+Verify:
+
+jmeter -v
+
+To open its graphical interface:
+
+jmeter
+
+If Ubuntu cannot find the package, you can download JMeter from its official website:
+
+https://jmeter.apache.org/download_jmeter.cgi
+7. Step 6 — How the software fits into your eight assignments
+
+Here is the practical setup for each experiment.
+Assignment	Main technologies
+1. System Design Introduction	Java, Maven, VS Code, Git, GitHub
+2. URL Shortener	Spring Boot, Java, Maven, database, Postman
+3. URL Shortener with Redis	Spring Boot, Redis, database, Postman
+4. MongoDB Sharding	Docker, Docker Compose, MongoDB
+5. Consistent Hashing	Spring Boot, Java, Docker, multiple MongoDB instances
+6. Rate Limiter	Spring Boot, Redis, Token Bucket, Lua scripting, Postman
+7. Autocomplete	Spring Boot, Trie, Redis, Docker, Postman, JMeter
+8. Web Crawler	Spring Boot, Redis, Docker, Postman, JMeter
+These combinations follow the requirements described in your uploaded assignment PDFs.
+Do you need to install MongoDB and Redis separately?
+
+No, not necessarily.
+
+You can run both using Docker containers. This keeps your Ubuntu installation cleaner and makes it easier to configure different environments for your assignments.
+
+For example, you can run Redis using:
+
+docker run -d \
+  --name redis-server \
+  -p 6379:6379 \
+  redis:7
+
+Check whether Redis is working:
+
+docker exec redis-server redis-cli ping
+
+Expected output:
+PONG
+
+You can later use Docker Compose to configure the more complex environments required by your assignments.
+8. Final verification
+
+After installing the software, run:
+
+java -version
+git --version
+mvn -version
+docker --version
+docker compose version
+jmeter -v
+
+If all these commands work, you have installed the main command-line tools needed for your lab.
+
+One additional point: your assignments use different databases and distributed-system configurations. You should configure them as you begin each experiment rather than starting every service at once.
+
+Let's check your Ubuntu environment first: run the following command and send me its output.
+
+cat /etc/os-release
+
+I can then give you the exact installation commands for your Ubuntu version, including the safest way to configure Docker and VS Code without running your development environment as root.
+

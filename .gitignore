@@ -1,0 +1,29 @@
+# Virtual environments
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
+
+# Python cache & compiled files
+**/__pycache__/
+*.py[cod]
+*$py.class
+**/.ipynb_checkpoints/
+
+# Java / Maven build artifacts
+**/target/
+*.class
+
+# IDE & Editor files
+**/.idea/
+**/.vscode/
+
+# Operating system files
+Thumbs.db
+desktop.ini
+.DS_Store
+**/__MACOSX/
+
+# Sensitive credentials & tokens
+*database_id*.txt
+*.env
